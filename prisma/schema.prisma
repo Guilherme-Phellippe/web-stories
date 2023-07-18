@@ -16,7 +16,6 @@ model Stories {
   story_publisher           String
   story_publisher_logo_src  String
   story_poster_portrait_src String
-  grid_layer_content        String
   pages                     Json[]   @default([])
   created_at                DateTime @default(now())
   updated_at                DateTime @updatedAt

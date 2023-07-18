@@ -10,7 +10,6 @@ app.get("/story/:id_story", async (req: any, res: any) => {
   const { id_story } = req.params;
 
   //push all database 
-  // @ts-ignore
   const story: any = await prisma.stories.findFirst({
     where: {
       id: id_story
