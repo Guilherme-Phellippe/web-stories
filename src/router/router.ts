@@ -115,7 +115,6 @@ app.get("/story/", async (req: any, res: any) => {
   sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
   //push all database 
-  // @ts-ignore
   const story: any = await prisma.stories.findMany({
     select: {
       id: true,
