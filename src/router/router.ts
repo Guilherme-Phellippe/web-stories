@@ -109,27 +109,7 @@ app.get("/story/:id_story", async (req: any, res: any) => {
   //If exist key on database return this key , if not return not found page
   res.send(htmlContent)
 });
-app.get("/story/", async (req: any, res: any) => {
-  const sevenDaysAgo = new Date();
-  sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
-  //push all database 
-  const story: any = await prisma.stories.findMany({
-    select: {
-      id: true,
-      story_title: true,
-      story_poster_portrait_src: true,
-    },
-    where: {
-      updated_at: {
-        gte: sevenDaysAgo
-      }
-    }
-  });
-
-  if (story) res.status(200).json(story)
-  else res.status(500)
-});
 
 
 export default app
