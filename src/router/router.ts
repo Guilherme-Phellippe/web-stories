@@ -22,6 +22,7 @@ app.get("/story/:slug", async (req: any, res: any) => {
       <html ⚡>
         <head>
           <meta charset="utf-8">
+          <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
           <title>${story.story_title}</title>
           <link rel="canonical" href="https://temsabor.blog">
           <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
