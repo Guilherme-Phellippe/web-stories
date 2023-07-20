@@ -1,6 +1,5 @@
 import { Router } from "express"
 import { PrismaClient } from "@prisma/client";
-const fs = require('fs');
 
 const app = Router();
 const prisma = new PrismaClient();
@@ -8,15 +7,29 @@ const prisma = new PrismaClient();
 /** redireciona para o link chamado */
 app.get("/story/:slug", async (req: any, res: any) => {
   const { slug } = req.params;
+  const keyword = slug.split("-").sort((a: string, b: string) => b.length - a.length )
 
-  //push all database 
+  //push story select to database 
   const story: any = await prisma.stories.findFirst({
     where: {
       slug
     }
   });
+  //push story select to database 
+  const storiesRecommended: any = await prisma.stories.findMany({
+    where: {
+      OR: [
+        { story_title: { contains: keyword[0] } },
+        { story_title: { contains: keyword[1] } },
+        { story_title: { contains: keyword[2] } },
+        { story_title: { contains: " " } }
+      ]
+    }, select:{
+      slug: true
+    }
+  });
 
-  if(story){
+  if (story) {
     const htmlContent = `
       <!doctype html>
       <html ⚡>
@@ -75,6 +88,11 @@ app.get("/story/:slug", async (req: any, res: any) => {
               line-height: 2em;
             }
           </style>
+          <script>
+            setTimeout(()=>{
+              localStorage.setItem("NextStories", JSON.stringify(${storiesRecommended}))
+            })();
+          </script>
         </head>
         <body>
           <!-- Cover page -->
@@ -85,18 +103,11 @@ app.get("/story/:slug", async (req: any, res: any) => {
               poster-portrait-src=${story.story_poster_portrait_src}
           >
             ${story.pages.map((page: any) =>
-              `<amp-story-page id=${page.page_id}>
+      `<amp-story-page id=${page.page_id}>
                 ${page.grid_layer} 
-                <amp-story-grid-layer template="vertical" href="https://temsabor.blog/">
-                  <a
-                    href="https://temsabor.blog/"
-                    style="position: absolute; top: 15px; left: 20px; z-index: 999; color: #fff; cursor: pointer; text-decoration:none"
-                  >
-                    x
-                  </a>
-                </amp-story-grid-layer>
               </amp-story-page>`
-              )}
+    )}
+            
             <!-- Bookend -->
             <amp-story-bookend src="../../bookend.json" layout="nodisplay"></amp-story-bookend>
           </amp-story>
@@ -104,7 +115,7 @@ app.get("/story/:slug", async (req: any, res: any) => {
       </html>
       
       `;
-  
+
     //If exist key on database return this key , if not return not found page
     res.send(htmlContent)
   }
