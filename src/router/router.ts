@@ -88,11 +88,6 @@ app.get("/story/:slug", async (req: any, res: any) => {
               line-height: 2em;
             }
           </style>
-          <script>
-            setTimeout(()=>{
-              localStorage.setItem("NextStories", JSON.stringify(${storiesRecommended}))
-            })();
-          </script>
         </head>
         <body>
           <!-- Cover page -->
