@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 /** redireciona para o link chamado */
 app.get("/story/:slug", async (req: any, res: any) => {
   const { slug } = req.params;
-  const keyword = slug.split("-").sort((a: string, b: string) => b.length - a.length )
+  const keyword = slug.split("-").sort((a: string, b: string) => b.length - a.length)
 
   //push story select to database 
   const story: any = await prisma.stories.findFirst({
@@ -24,7 +24,7 @@ app.get("/story/:slug", async (req: any, res: any) => {
         { story_title: { contains: keyword[2] } },
         { story_title: { contains: " " } }
       ]
-    }, select:{
+    }, select: {
       slug: true
     }
   });
@@ -87,7 +87,63 @@ app.get("/story/:slug", async (req: any, res: any) => {
               background-color: #000;
               line-height: 2em;
             }
+            .element-bottom {
+              margin-top: 180px;
+          }
+  
+          .text-border {
+              text-shadow: 2px 2px rgb(30, 30, 30, .5), -2px -2px rgb(30, 30, 30, .5);
+          }
+  
+          .color-black {
+              color: #242424;
+          }
+  
+          .a-button {
+              width: 200px;
+              text-align: center;
+              text-decoration: none;
+              display: block;
+              margin: 1rem auto;
+              background-color: orange;
+              border: 1px solid white;
+              border-radius: 1rem;
+              color: black;
+          }
+  
+          .flex {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              gap: 8;
+          }
+  
+          .text-1 {
+              font-size: 1rem
+          }
+  
+          .text-1_5 {
+              font-size: 1.5rem
+          }
+  
+          .text-2 {
+              font-size: 2rem
+          }
+  
+          .ml-4 {
+              margin-left: 1rem;
+          }
+  
+          .font-serif {
+              font-family: 'Dancing Script', cursive;
+              font-weight: bold;
+          }
           </style>
+          <!-- google fonts  -->
+
+          <link rel="preconnect" href="https://fonts.googleapis.com">
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+          <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
         </head>
         <body>
           <!-- Cover page -->
